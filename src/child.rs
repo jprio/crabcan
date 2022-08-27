@@ -1,9 +1,11 @@
 use crate::config::ContainerOpts;
 use crate::errors::Errcode;
 use crate::mounts::setmountpoint;
+use crate::namespaces::userns;
 use nix::sched::clone;
 use nix::sched::CloneFlags;
 use nix::sys::signal::Signal;
+use nix::unistd::close;
 use nix::unistd::Pid;
 
 const STACK_SIZE: usize = 1024 * 1024;
@@ -44,6 +46,10 @@ fn child(config: ContainerOpts) -> isize {
             return -1;
         }
     }
+    if let Err(_) = close(config.fd) {
+        log::error!("Error while closing socket ...");
+        return -1;
+    }
     0
 }
 
@@ -52,6 +58,7 @@ use crate::hostname::set_container_hostname;
 fn setup_container_configurations(config: &ContainerOpts) -> Result<(), Errcode> {
     set_container_hostname(&config.hostname)?;
     setmountpoint(&config.mount_dir)?;
+    userns(config.fd, config.uid)?;
 
     Ok(())
 }
