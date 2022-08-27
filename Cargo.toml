@@ -1,0 +1,15 @@
+[package]
+name = "crabcan"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+env_logger = "0.9.0"
+ipc = "0.2.0"
+log = "0.4.17"
+nix = "0.25.0"
+rand = "0.8.5"
+scan_fmt = "0.2.6"
+structopt = "0.3.26"
