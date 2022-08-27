@@ -2,11 +2,11 @@ use crate::child::generate_child_process;
 use crate::cli::Args;
 use crate::config::ContainerOpts;
 use crate::errors::Errcode;
+use crate::mounts::clean_mounts;
 use nix::sys::utsname::uname;
 use nix::unistd::close;
 use nix::unistd::Pid;
 use std::os::unix::io::RawFd;
-
 pub struct Container {
     sockets: (RawFd, RawFd),
     config: ContainerOpts,
@@ -45,7 +45,6 @@ impl Container {
     }
 
     pub fn create(&mut self) -> Result<(), Errcode> {
-        log::debug!("Creation finished");
         let pid = generate_child_process(self.config.clone())?;
         self.child_pid = Some(pid);
         log::debug!("Creation finished");
@@ -63,6 +62,7 @@ impl Container {
             log::error!("Unable to close read socket: {:?}", e);
             return Err(Errcode::SocketError(4));
         }
+        clean_mounts(&self.config.mount_dir)?;
 
         Ok(())
     }

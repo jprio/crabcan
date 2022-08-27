@@ -12,6 +12,7 @@ pub enum Errcode {
     ChildProcessError(u8),
     RngError,
     HostnameError(u8),
+    MountsError(u8),
 }
 
 #[allow(unreachable_patterns)]
