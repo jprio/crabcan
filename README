@@ -1,1 +1,8 @@
-https://litchipi.github.io/rust/2021/09/30/container-in-rust-part2.html
+Introduction to containers
+Post n°1 of serie Writing a container in Rust
+The objective of this series of blog post is to understand what is a container, how does it work and create a container to create and manage containers, from scratch in Rust. The implementation will be based on the amazing Linux containers in 500 lines of code tutorial, but rewritten in Rust.
+
+First of all, to understand how we’re going to build our container, let’s figure out what is a container and why we need it, we’ll examine then few examples of containers commonly used.
+
+
+https://litchipi.github.io/series/container_in_rust
